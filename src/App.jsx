@@ -1,3 +1,4 @@
+
 const Course = ({course}) => {
   const arreglo = course.parts
 
