@@ -1,44 +1,7 @@
 import { useState } from 'react'
 
-const Busqueda = (persons, filter) => {
-  return persons.filter(
-    person => person.name.toLowerCase().includes(filter.toLowerCase())
-  );
-}
-
-const Formulario = ({ newName, newPhone, handleNameChange, handlePhoneChange, addName }) => {
-  return (
-    <>
-    <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newPhone} onChange={handlePhoneChange} />
-        </div>
-        <div >
-          <button type="submit">add</button>
-        </div>
-      </form>
-    </>
-  )
-}
-
-const Persona = ({ persons, filter }) => {
-  let filteredPersons;
-  if (filter === "") {
-    filteredPersons = persons;
-  } else {
-    filteredPersons = Busqueda(persons, filter);
-  }
-  return (
-    <>
-      {filteredPersons.map(person => 
-        <p key={person.name}>{person.name} {person.phone}</p>
-      )}
-    </>
-  );
-}
+import Formulario from './components/Formulario'
+import Persona from './components/Persona'
 
 const App = () => {
   const [persons, setPersons] = useState([
