@@ -1,5 +1,45 @@
 import { useState } from 'react'
 
+const Busqueda = (persons, filter) => {
+  return persons.filter(
+    person => person.name.toLowerCase().includes(filter.toLowerCase())
+  );
+}
+
+const Formulario = ({ newName, newPhone, handleNameChange, handlePhoneChange, addName }) => {
+  return (
+    <>
+    <form onSubmit={addName}>
+        <div>
+          name: <input value={newName} onChange={handleNameChange} />
+        </div>
+        <div>
+          number: <input value={newPhone} onChange={handlePhoneChange} />
+        </div>
+        <div >
+          <button type="submit">add</button>
+        </div>
+      </form>
+    </>
+  )
+}
+
+const Persona = ({ persons, filter }) => {
+  let filteredPersons;
+  if (filter === "") {
+    filteredPersons = persons;
+  } else {
+    filteredPersons = Busqueda(persons, filter);
+  }
+  return (
+    <>
+      {filteredPersons.map(person => 
+        <p key={person.name}>{person.name} {person.phone}</p>
+      )}
+    </>
+  );
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', phone: '040-1234567' },
@@ -44,46 +84,18 @@ const App = () => {
     setFilter(event.target.value)
   }
   
-  const Persona = ({ persons, filter }) => {
-    let filteredPersons;
-    if (filter === "") {
-      filteredPersons = persons;
-    } else {
-      filteredPersons = persons.filter(
-        person => person.name.toLowerCase().includes(filter.toLowerCase())
-      );
-    }
-    return (
-      <>
-        {filteredPersons.map(person => 
-          <p key={person.name}>{person.name} {person.phone}</p>
-        )}
-      </>
-    );
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
       <div>
           filter shown with : <input value={filter} onChange={handleFilterChange} />
-        </div>
+      </div>
       <h2>add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newPhone} onChange={handlePhoneChange} />
-        </div>
-        <div >
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Formulario newName={ newName}  newPhone={newPhone} handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange} addName={addName} />
       <h2>Numbers</h2>       
       <Persona persons={persons} filter={filter} />
     </div>
   )
 }
 
-export default App
+export default App;
