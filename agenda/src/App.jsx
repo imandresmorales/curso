@@ -21,9 +21,20 @@ const App = () => {
     event.preventDefault();
     let i = 0;
 
-    persons.map((obj) => {
-      if (obj.name === newName) {
-        alert(`${newName} is already added to phonebook`);
+    persons.map((persona) => {
+      if (persona.name === newName) {
+        const resultado = window.confirm(`${persona.name} is already added to phonebook, replace the old number with a new one?`)
+
+        if(resultado){
+          const person = persons.filter( p => p.id === persona.id)
+          const personChange = {name: person[0].name, phone: newPhone}
+          personService.update(persona.id, personChange)
+            .then(response => {
+              setPersons(persons.map(p => p.id !== persona.id ? p :  response.data))
+            })
+        }else{
+//
+        }
         i = 1;
       }
     });
