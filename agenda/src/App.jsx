@@ -32,8 +32,6 @@ const App = () => {
             .then(response => {
               setPersons(persons.map(p => p.id !== persona.id ? p :  response.data))
             })
-        }else{
-//
         }
         i = 1;
       }
@@ -81,7 +79,7 @@ const App = () => {
         addName={addName}
       />
       <h2>Numbers</h2>
-      <Persona persons={persons} filter={filter} />
+      <Persona persons={persons} filter={filter} setPersons={setPersons} />
     </div>
   );
 };
