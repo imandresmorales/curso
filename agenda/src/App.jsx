@@ -9,6 +9,29 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const Notification = ({message}) => {
+    if(message === ''){
+      return null
+    }
+    
+      const css =  {
+        color: 'green',
+        background: 'lightgrey',
+        fontSize: 20,
+        borderStyle: 'solid',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10
+      }
+      return(
+        <div style={css}>
+          {message}
+        </div>
+      )
+    
+  }
 
   useEffect(() => {
     personService.getAll()
@@ -31,6 +54,10 @@ const App = () => {
           personService.update(persona.id, personChange)
             .then(response => {
               setPersons(persons.map(p => p.id !== persona.id ? p :  response.data))
+              setErrorMessage(`Update phone of ${response.data.name}`)
+              setTimeout(() => {
+                setErrorMessage('')
+              }, 3000);
             })
         }
         i = 1;
@@ -47,6 +74,10 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewPhone('')
+          setErrorMessage(`Added ${response.data.name}`)
+          setTimeout(() => {
+            setErrorMessage('')
+          }, 3000);
         })
     }
   };
@@ -66,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <div>
         filter shown with :{" "}
         <input value={filter} onChange={handleFilterChange} />
